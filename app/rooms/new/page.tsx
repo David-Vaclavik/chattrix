@@ -26,9 +26,7 @@ export default function NewRoomPage() {
   });
 
   const handleSubmit = async (data: FormData) => {
-    // TODO: remove later, for testing only
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
+    // console.log(data);
 
     const { error, message } = await createRoom(data);
 
