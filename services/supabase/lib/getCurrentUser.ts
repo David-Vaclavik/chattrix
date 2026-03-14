@@ -1,6 +1,6 @@
 import { createClient } from "../server";
 
-// maybe we can cache this?
+// maybe we can cache this???
 export async function getCurrentUser() {
   const supabase = await createClient();
 

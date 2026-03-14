@@ -6,8 +6,11 @@ import { Message } from "../types/messages";
 
 type SendMessageResult = { error: false; data: Message } | { error: true; message: string };
 
-export async function sendMessage(message: string, roomId: string): Promise<SendMessageResult> {
-  // Implement the logic to send a message using Supabase
+export async function sendMessage(
+  id: string,
+  message: string,
+  roomId: string
+): Promise<SendMessageResult> {
   const user = await getCurrentUser();
   if (!user) {
     return { error: true, message: "User not authenticated" };
@@ -26,6 +29,9 @@ export async function sendMessage(message: string, roomId: string): Promise<Send
     .eq("member_id", user.id)
     .single();
 
+  // below for testing only, we can remove it later
+  // return { error: true, message: "User is not a member of this chat room" };
+
   if (membershipError || !membership) {
     return { error: true, message: "User is not a member of this chat room" };
   }
@@ -33,6 +39,7 @@ export async function sendMessage(message: string, roomId: string): Promise<Send
   const { data, error } = await supabase
     .from("message")
     .insert({
+      id,
       text: message.trim(),
       chat_room_id: roomId,
       author_id: user.id,

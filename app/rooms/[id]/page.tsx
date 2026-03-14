@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/services/supabase/lib/getCurrentUser";
 import { createAdminClient } from "@/services/supabase/server";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { RoomClient } from "./_client";
 
 export default async function RoomPage({ params }: { params: Promise<{ id: string }> }) {
@@ -12,12 +12,10 @@ export default async function RoomPage({ params }: { params: Promise<{ id: strin
   return <RoomClient room={room} user={user} messages={messages} />;
 }
 
+// Queries below used only in this file
 async function getRoom(id: string) {
   const user = await getCurrentUser();
-  if (user == null) {
-    return null;
-    redirect("/auth/login");
-  }
+  if (user == null) return null;
 
   const supabase = await createAdminClient();
   const { data: room, error } = await supabase
@@ -57,7 +55,7 @@ async function getMessages(roomId: string) {
     .select("id, text, created_at, author_id, author:user_profile (name, image_url)")
     .eq("chat_room_id", roomId)
     .order("created_at", { ascending: false })
-    .limit(10);
+    .limit(20);
 
   if (error) return [];
   return data;
