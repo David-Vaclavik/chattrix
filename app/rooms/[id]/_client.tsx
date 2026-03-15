@@ -3,6 +3,8 @@
 import { ChatInput } from "@/components/chat-input";
 import { ChatMessage } from "@/components/chat-message";
 import { InviteUserModal } from "@/components/invite-user-modal";
+import { Button } from "@/components/ui/button";
+import { useInfiniteScrollChat } from "@/services/supabase/hooks/useInfiniteScrollChat";
 import { useRealtimeChat } from "@/services/supabase/hooks/useRealtimeChat";
 import { Message } from "@/services/supabase/types/messages";
 import { useEffect, useRef, useState } from "react";
@@ -21,21 +23,28 @@ type RoomClientProps = {
 };
 
 export function RoomClient({ room, user, messages }: RoomClientProps) {
+  const {
+    loadMoreMessages,
+    messages: oldMessages,
+    status,
+    triggerQueryRef,
+  } = useInfiniteScrollChat({ startingMessages: messages.toReversed(), roomId: room.id });
   const { connectedUsers, messages: realtimeMessages } = useRealtimeChat(room.id, user.id);
   const [sentMessages, setSentMessages] = useState<
     (Message & { status: "pending" | "error" | "success" })[]
   >([]);
 
-  const allMessages = messages.toReversed().concat(
+  const allMessages = oldMessages.concat(
     realtimeMessages,
     sentMessages.filter((m) => !realtimeMessages.find((rm) => rm.id === m.id))
   );
 
   const bottomRef = useRef<HTMLDivElement>(null);
+  const lenghtOfNewMessages = realtimeMessages.length + sentMessages.length;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "instant" });
-  }, [allMessages.length]);
+  }, [lenghtOfNewMessages]);
 
   const handleSend = (message: { id: string; text: string }) => {
     setSentMessages((prev) => [
@@ -83,8 +92,25 @@ export function RoomClient({ room, user, messages }: RoomClientProps) {
         }}
       >
         <div>
-          {allMessages.map((message) => (
-            <ChatMessage key={message.id} {...message} />
+          {status === "loading" && (
+            <p className="text-center text-sm text-muted-foreground py-2">
+              Loading more messages...
+            </p>
+          )}
+          {status === "error" && (
+            <div className="text-center p-4 pt-0 space-y-2">
+              <p className="text-sm text-destructive py-2">Error loading messages.</p>
+              <Button onClick={loadMoreMessages} variant="outline">
+                Retry
+              </Button>
+            </div>
+          )}
+          {allMessages.map((message, index) => (
+            <ChatMessage
+              key={message.id}
+              {...message}
+              ref={index === 0 && status === "idle" ? triggerQueryRef : null}
+            />
           ))}
           <div ref={bottomRef} />
         </div>

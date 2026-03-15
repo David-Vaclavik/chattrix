@@ -55,7 +55,7 @@ async function getMessages(roomId: string) {
     .select("id, text, created_at, author_id, author:user_profile (name, image_url)")
     .eq("chat_room_id", roomId)
     .order("created_at", { ascending: false })
-    .limit(20);
+    .limit(25);
 
   if (error) return [];
   return data;
