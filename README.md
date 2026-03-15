@@ -5,3 +5,4 @@
   - in chat-input.tsx and maybe other files
 - in [id]/page.tsx add not-found.tsx page instead of default 404 page for the notFound() function
 - maybe cache getCurrentUser()
+- add LoadingSwap component we use swap in: invite-user-modal.tsx, and other places

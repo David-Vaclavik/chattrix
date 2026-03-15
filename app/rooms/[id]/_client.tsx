@@ -2,6 +2,7 @@
 
 import { ChatInput } from "@/components/chat-input";
 import { ChatMessage } from "@/components/chat-message";
+import { InviteUserModal } from "@/components/invite-user-modal";
 import { useRealtimeChat } from "@/services/supabase/hooks/useRealtimeChat";
 import { Message } from "@/services/supabase/types/messages";
 import { useEffect, useRef, useState } from "react";
@@ -70,7 +71,7 @@ export function RoomClient({ room, user, messages }: RoomClientProps) {
             {connectedUsers === 1 ? "1 user online" : `${connectedUsers} users online`}
           </p>
         </div>
-        {/* <InviteUserModal roomId={room.id} /> */}
+        <InviteUserModal roomId={room.id} />
       </div>
 
       {/* Messages */}
