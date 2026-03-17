@@ -60,7 +60,9 @@ export function InviteUserModal({ roomId }: { roomId: string }) {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Invite User to Room</DialogTitle>
-          <DialogDescription>Enter the user ID of the person you want to invite.</DialogDescription>
+          <DialogDescription>
+            Enter the user ID or username of the person you want to invite.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
@@ -69,7 +71,7 @@ export function InviteUserModal({ roomId }: { roomId: string }) {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="user-id">User ID</FieldLabel>
+                  <FieldLabel htmlFor="user-id">User ID or Username</FieldLabel>
                   <Input {...field} id="user-id" aria-invalid={fieldState.invalid} />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
