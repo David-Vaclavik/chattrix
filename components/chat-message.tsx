@@ -1,14 +1,9 @@
+import { DATE_FORMATTER } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { Message } from "@/services/supabase/types/messages";
 import { UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-// TODO: Add env variable for date format
-const DATE_FORMATTER = new Intl.DateTimeFormat("en-GB", {
-  dateStyle: "short",
-  timeStyle: "short",
-});
 
 export function ChatMessage({
   text,

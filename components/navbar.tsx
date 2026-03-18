@@ -11,7 +11,7 @@ export default function Navbar() {
   const userName = user?.user_metadata?.preferred_username || user?.email || "User";
 
   return (
-    <div className="border-b bg-background h-header">
+    <div className="border-b bg-background h-header sticky top-0 z-50">
       <nav className="container mx-auto px-4 py-4 flex justify-between items-center h-full gap-4">
         <Link href="/" className="text-2xl font-bold">
           Chattrix

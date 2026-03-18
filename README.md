@@ -1,12 +1,31 @@
-# TODO
+# Chattrix
 
-- in chat-message.tsx move DATE_FORMATTER to a separete file, maybe utils/date.ts
-- in [id]/page.tsx add not-found.tsx page instead of default 404 page for the notFound() function
-- maybe cache getCurrentUser()
-- add LoadingSwap component we use swap in: invite-user-modal.tsx, and other places
+A real-time chat application built with Next.js and Supabase.
 
-## Maybe?
+🔗 **Live demo:** https://chattrix-live.vercel.app/
 
-- change React.FormEvent<HTMLFormElement> it's deprecated, You probably meant to use ChangeEvent, InputEvent, SubmitEvent, or just SyntheticEvent instead depending on the event type.
-  - in chat-input.tsx changed to React.SubmitEvent<HTMLFormElement>
-  - meaybe in other places too
+---
+
+## Features
+
+- **Real-time messaging** — messages appear instantly via Supabase Realtime broadcast
+- **Presence indicators** — see how many users are connected to a room
+- **Chat rooms** — create and join multiple rooms
+- **Invite users** — add other users to a room by their display name
+- **Infinite scroll** — older messages load automatically as you scroll up
+- **User profiles** — view any user's profile with a shareable link
+- **GitHub OAuth** — sign in with your GitHub account
+- **Optimistic UI** — messages appear immediately while sending, with error feedback
+
+---
+
+## Tech Stack
+
+| Category        | Technology            |
+| --------------- | --------------------- |
+| Framework       | Next.js               |
+| Language        | TypeScript            |
+| Database & Auth | Supabase              |
+| Styling         | Tailwind              |
+| Components      | shadcn/ui             |
+| Forms           | React Hook Form + Zod |

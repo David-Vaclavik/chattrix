@@ -71,9 +71,9 @@ export function RoomClient({ room, user, messages }: RoomClientProps) {
   };
 
   return (
-    <div className="container mx-auto h-screen-with-header border border-y-0 flex flex-col">
+    <div className="container mx-auto max-w-4xl h-screen-with-header border border-y-0 flex flex-col">
       {/* Header of the chat */}
-      <div className="flex items-center justify-between gap-2 p-4">
+      <div className="flex items-center justify-between gap-2 p-4 sticky top-(--height-header) z-10 bg-background">
         <div className="border-b">
           <h1 className="text-2xl font-bold">{room.name}</h1>
           <p className="text-muted-foreground text-sm">
@@ -117,13 +117,15 @@ export function RoomClient({ room, user, messages }: RoomClientProps) {
       </div>
 
       {/* ChatInput */}
-      <ChatInput
-        roomId={room.id}
-        onSend={handleSend}
-        onSuccessSend={handleSuccessSend}
-        onErrorSend={handleErrorSend}
-        onHeightChange={() => bottomRef.current?.scrollIntoView({ behavior: "instant" })}
-      />
+      <div className="sticky bottom-0 bg-background">
+        <ChatInput
+          roomId={room.id}
+          onSend={handleSend}
+          onSuccessSend={handleSuccessSend}
+          onErrorSend={handleErrorSend}
+          onHeightChange={() => bottomRef.current?.scrollIntoView({ behavior: "instant" })}
+        />
+      </div>
     </div>
   );
 }
