@@ -17,12 +17,19 @@ type ChatInputProps = {
   onSend: (message: { id: string; text: string }) => void;
   onSuccessSend: (message: Message) => void;
   onErrorSend: (id: string) => void;
+  onHeightChange?: () => void;
 };
 
-export function ChatInput({ roomId, onSend, onSuccessSend, onErrorSend }: ChatInputProps) {
+export function ChatInput({
+  roomId,
+  onSend,
+  onSuccessSend,
+  onErrorSend,
+  onHeightChange,
+}: ChatInputProps) {
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e?: React.SubmitEvent<HTMLFormElement>) => {
     e?.preventDefault();
     if (message.trim() === "") return;
 
@@ -41,13 +48,18 @@ export function ChatInput({ roomId, onSend, onSuccessSend, onErrorSend }: ChatIn
     onSuccessSend(result.data);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+    onHeightChange?.();
+  };
+
   return (
     <form className="p-3" onSubmit={handleSubmit}>
       <InputGroup>
         <InputGroupTextarea
           placeholder="Type your message..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleChange}
           className="field-sizing-content min-h-auto"
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {

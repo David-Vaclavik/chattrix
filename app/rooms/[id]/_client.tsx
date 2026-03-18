@@ -122,6 +122,7 @@ export function RoomClient({ room, user, messages }: RoomClientProps) {
         onSend={handleSend}
         onSuccessSend={handleSuccessSend}
         onErrorSend={handleErrorSend}
+        onHeightChange={() => bottomRef.current?.scrollIntoView({ behavior: "instant" })}
       />
     </div>
   );

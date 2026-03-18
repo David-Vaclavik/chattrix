@@ -67,12 +67,9 @@ export async function addUserToRoom({ roomId, userId }: { roomId: string; userId
   }
 
   const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId);
-  // 8312e473-0be1-4707-9328-af505456e02c
-
   const { data: userProfile } = await supabase
     .from("user_profile")
     .select("id")
-    // .eq("id", userId)
     .eq(isUUID ? "id" : "name", userId)
     .single();
 
