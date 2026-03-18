@@ -5,6 +5,7 @@ import { createRoomSchema } from "@/services/supabase/schemas/rooms";
 import { getCurrentUser } from "../lib/getCurrentUser";
 import { createAdminClient } from "../server";
 import { redirect } from "next/dist/client/components/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function createRoom(unsafeData: z.infer<typeof createRoomSchema>) {
   const { success, data } = createRoomSchema.safeParse(unsafeData);
@@ -98,4 +99,20 @@ export async function addUserToRoom({ roomId, userId }: { roomId: string; userId
   }
 
   return { error: false, message: "User added to room successfully" };
+}
+
+export async function joinRoom(roomId: string) {
+  const user = await getCurrentUser();
+  if (!user) return { error: true, message: "You must be logged in to join a room." };
+
+  const supabase = await createAdminClient();
+  const { error } = await supabase.from("chat_room_member").insert({
+    chat_room_id: roomId,
+    member_id: user.id,
+  });
+
+  if (error) return { error: true, message: "Failed to join room" };
+
+  revalidatePath("/");
+  return { error: false };
 }
