@@ -12,7 +12,7 @@ export default function Navbar() {
 
   return (
     <div className="border-b bg-background h-header sticky top-0 z-50">
-      <nav className="container mx-auto px-4 py-4 flex justify-between items-center h-full gap-4">
+      <nav className="nav-container p-4 flex justify-between items-center h-full">
         <Link href="/" className="text-2xl font-bold">
           Chattrix
         </Link>

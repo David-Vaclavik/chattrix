@@ -20,10 +20,7 @@ export default async function Home() {
     redirect("/auth/login");
   }
 
-  const [publicRooms, joinedRooms] = await Promise.all([
-    getPublicRooms(),
-    getJoinedRooms(user.id), // Replace with actual user ID
-  ]);
+  const [publicRooms, joinedRooms] = await Promise.all([getPublicRooms(), getJoinedRooms(user.id)]);
 
   if (publicRooms.length === 0 && joinedRooms.length === 0) {
     return (
@@ -52,7 +49,7 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
-      <RoomList title="Your Rooms" rooms={joinedRooms} isJoined />
+      <RoomList title="Joined Rooms" rooms={joinedRooms} isJoined />
       <RoomList
         title="Public Rooms"
         rooms={publicRooms.filter((room) => !joinedRooms.some((r) => r.id === room.id))}
